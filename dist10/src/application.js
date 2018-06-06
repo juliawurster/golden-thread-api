@@ -29,7 +29,7 @@ class GoldenThreadApiApplication extends boot_1.BootMixin(repository_1.Repositor
             port: 3306,
             database: 'golden_thread',
             user: 'root',
-            password: 'root'
+            password: 'Livelife1'
         });
         this.dataSource(dataSourceConfig);
     }
