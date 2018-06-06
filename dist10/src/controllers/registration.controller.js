@@ -20,7 +20,16 @@ let RegistrationController = class RegistrationController {
     constructor(userRepo) {
         this.userRepo = userRepo;
     }
-    async createUser(user) {
+    async registerUser(user) {
+        // Check that required fields are supplied
+        if (!user.email || !user.password) {
+            throw new rest_1.HttpErrors.BadRequest('missing data');
+        }
+        // Check that user does not already exist
+        let userExists = !!(await this.userRepo.count({ email: user.email }));
+        if (userExists) {
+            throw new rest_1.HttpErrors.BadRequest('user already exists');
+        }
         return await this.userRepo.create(user);
     }
 };
@@ -30,9 +39,9 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_1.User]),
     __metadata("design:returntype", Promise)
-], RegistrationController.prototype, "createUser", null);
+], RegistrationController.prototype, "registerUser", null);
 RegistrationController = __decorate([
-    __param(0, repository_1.repository(user_repository_1.UserRepository.name)),
+    __param(0, repository_1.repository(user_repository_1.UserRepository)),
     __metadata("design:paramtypes", [user_repository_1.UserRepository])
 ], RegistrationController);
 exports.RegistrationController = RegistrationController;
